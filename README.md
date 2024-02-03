@@ -4,7 +4,7 @@ I'm a Software Engineer passionate about Software Architecture/Development/Engin
 
 ## 📫 Let's Connect!
 
-[![Twitter](https://img.shields.io/twitter/follow/yourhandle?style=social)](https://twitter.com/jalusw)
+[![Twitter](https://img.shields.io/twitter/follow/jalusw?style=social)](https://twitter.com/jalusw)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://linkedin.com/in/jalusw)
 [![Instagram](https://img.shields.io/badge/Instagram-Follow-orange)](https://instagram.com/jalusw)
 
