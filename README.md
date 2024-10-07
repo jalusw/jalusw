@@ -2,8 +2,7 @@
 
 Hi there! 👋
 
-I'm a software engineer based in indonesia, i'm passionate about computer science and software engineering domain, currently focusing to learn and building a web applications.
-
+I'm a software engineer based in indonesia, passionate about computer science and software engineering domain, currently focusing to learn and build web applications.
 ## Reach Me
 
 [![LinkedIn](https://img.shields.io/badge/jalusw-LinkedIn-blue?style=flat-square&logo=Linkedin&logoColor=white)](https://www.linkedin.com/in/jalusw/)
