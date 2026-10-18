@@ -1,17 +1,699 @@
 ---
 import '../styles/global.css';
+import Motif from '../components/Motif.astro';
+
+const edition = {
+	vol: 'Vol. 01',
+	year: '2026',
+	location: 'Jakarta, Indonesia',
+	coords: '06°12′S · 106°49′E',
+};
+
+const masthead = [
+	{ k: 'Issue', v: '01 / 2026' },
+	{ k: 'Focus', v: 'Product & Interface' },
+	{ k: 'Format', v: 'Design & Code' },
+	{ k: 'Status', v: 'Available' },
+];
+
+const works = [
+	{
+		n: '01',
+		title: 'Meridian',
+		client: 'Northwind Pay',
+		discipline: 'Payments Infrastructure',
+		year: '2026',
+		motif: 'circles',
+		outcome: 'Cut settlement errors 38%; onboarding from nine steps to three.',
+	},
+	{
+		n: '02',
+		title: 'Fieldnote',
+		client: 'Kestrel Labs',
+		discipline: 'Field Research Tool',
+		year: '2025',
+		motif: 'bars',
+		outcome: 'Offline-first sync shipped to research teams in twelve countries.',
+	},
+	{
+		n: '03',
+		title: 'Signal',
+		client: 'Arbor Data',
+		discipline: 'Realtime Platform',
+		year: '2025',
+		motif: 'grid',
+		outcome: 'Rebuilt the charting layer; time-to-interactive down 62%.',
+	},
+	{
+		n: '04',
+		title: 'Atelier',
+		client: 'Halcyon Type',
+		discipline: 'Foundry Storefront',
+		year: '2024',
+		motif: 'type',
+		outcome: 'Editorial commerce and licensing; conversion up 2.4×.',
+	},
+	{
+		n: '05',
+		title: 'Horizon',
+		client: 'Verso Press',
+		discipline: 'Editorial System',
+		year: '2024',
+		motif: 'wave',
+		outcome: 'A responsive grid now running across forty-plus issues.',
+	},
+] as const;
+
+const preface =
+	'I build systems, not screens. Grids, type, and restraint — the parts you never notice but always feel. The work should disappear behind the thing you came to do.';
+
+const about =
+	"Jalu is an independent designer and developer working between structure and interface. Since 2019 he has helped product teams turn dense systems into calm, legible tools — always seeking the least design that does the most work.";
+
+const facts = [
+	{ k: 'Based', v: 'Jakarta, Indonesia' },
+	{ k: 'Practice', v: 'Product & Interface' },
+	{ k: 'Status', v: 'Available — 2026' },
+	{ k: 'Since', v: '2019' },
+];
+
+const colophon = [
+	{ k: 'Typeface', v: 'Helvetica Neue' },
+	{ k: 'Build', v: 'Astro · Tailwind · GSAP · Lenis' },
+	{ k: 'Grid', v: 'Twelve Column' },
+	{ k: 'Edition', v: 'Vol. 01 — 2026' },
+];
 ---
 
+<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
 		<link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<meta
+			name="description"
+			content="Jalu — an independent designer and developer building calm, legible interfaces. Portfolio, Vol. 01."
+		/>
+		<title>Jalu — Portfolio, Vol. 01</title>
+		<noscript>
+			<style>
+				#preloader,
+				.cursor,
+				.grain,
+				.work-preview {
+					display: none !important;
+				}
+				.line-mask > span {
+					transform: none !important;
+				}
+			</style>
+		</noscript>
 	</head>
 	<body>
-		<h1 class="text-4xl font-bold">Astro</h1>
+		<!-- PRELOADER -->
+		<div id="preloader">
+			<div class="flex items-start justify-between">
+				<span class="meta">Jalu — Portfolio, {edition.vol}</span>
+				<span class="meta text-ash">{edition.year}</span>
+			</div>
+			<div class="flex flex-col items-center justify-center gap-6">
+				<span
+					id="preloader-name"
+					class="text-[18vw] leading-none font-bold tracking-[-0.05em] md:text-[12vw]">JALU</span
+				>
+			</div>
+			<div class="flex items-end justify-between">
+				<span class="meta text-ash">Preparing plates</span>
+				<span id="counter" class="font-mono text-sm tabular-nums">000</span>
+			</div>
+		</div>
+
+		<div class="grain"></div>
+
+		<div class="cursor is-hidden" id="cursor">
+			<div class="cursor__ring"></div>
+			<div class="cursor__dot"></div>
+			<span class="cursor__label">View</span>
+		</div>
+
+		<div class="work-preview" id="work-preview">
+			{works.map((work) => (
+				<div class="absolute inset-0" data-preview>
+					<Motif type={work.motif} class="bg-haze" />
+				</div>
+			))}
+		</div>
+
+		<div
+			id="progress"
+			class="fixed inset-x-0 top-0 z-50 h-px origin-left scale-x-0 bg-ink"
+			aria-hidden="true"
+		>
+		</div>
+
+		<!-- HEADER -->
+		<header class="fixed inset-x-0 top-0 z-40 border-b border-line bg-paper/80 backdrop-blur-sm">
+			<div class="mx-auto flex max-w-[1600px] items-center justify-between px-5 py-3.5 md:px-10">
+				<a href="#top" class="link-wipe meta" data-cursor>Jalu&nbsp;—&nbsp;Portfolio&nbsp;{edition.vol}</a>
+				<nav class="hidden gap-8 md:flex">
+					<a href="#preface" class="link-wipe meta" data-cursor>Preface</a>
+					<a href="#index" class="link-wipe meta" data-cursor>Index</a>
+					<a href="#plates" class="link-wipe meta" data-cursor>Plates</a>
+					<a href="#colophon" class="link-wipe meta" data-cursor>Colophon</a>
+				</nav>
+				<span class="meta text-ash">JKT <span id="clock">--:--:--</span></span>
+			</div>
+		</header>
+
+		<!-- SECTION INDICATOR -->
+		<aside
+			class="fixed right-4 top-1/2 z-40 hidden -translate-y-1/2 flex-col gap-3 lg:flex"
+			aria-hidden="true"
+		>
+			{['00', '01', '02', '03', '04'].map((n, i) => (
+				<span
+					class:list={['section-dot meta transition-colors duration-300', i === 0 ? 'text-ink' : 'text-ash']}
+					data-dot={i}
+				>{n}</span>
+			))}
+		</aside>
+
+		<main id="top" class="mx-auto max-w-[1600px] px-5 md:px-10">
+			<!-- 00 — MASTHEAD -->
+			<section
+				id="hero"
+				data-section="0"
+				class="relative flex min-h-[100svh] flex-col justify-between pt-24 pb-6"
+			>
+				<div class="pointer-events-none absolute inset-0 grid grid-cols-2 md:grid-cols-4" aria-hidden="true">
+					<div class="hidden border-l border-line md:block"></div>
+					<div class="hidden border-l border-line md:block"></div>
+					<div class="hidden border-l border-line md:block"></div>
+					<div class="border-l border-line"></div>
+				</div>
+
+				<div class="relative grid gap-6 pt-8 md:grid-cols-12">
+					<p class="line-mask meta md:col-span-4"><span>Portfolio — {edition.vol} / {edition.year}</span></p>
+					<p class="line-mask meta md:col-span-4 md:col-start-9 md:text-right">
+						<span>{edition.location} — {edition.coords}</span>
+					</p>
+				</div>
+
+				<div class="relative">
+					<h1 class="line-mask meta mb-4 text-ash"><span>An Independent Practice — Est. 2019</span></h1>
+					<div
+						id="hero-title"
+						class="line-mask font-bold tracking-[-0.05em] text-[26vw] leading-[0.8] md:text-[19vw]"
+					>
+						<span>JALU</span>
+					</div>
+					<div class="mt-8 grid gap-6 md:grid-cols-12">
+						<p class="col-span-6 max-w-md text-lg leading-snug md:text-xl">
+							Designer &amp; developer. I make interfaces that get out of the way.
+						</p>
+						<dl class="col-span-6 grid grid-cols-2 gap-x-6 gap-y-4 self-end md:col-span-5 md:col-start-8">
+							{masthead.map((row) => (
+								<div class="border-t border-line pt-2">
+									<dt class="meta text-ash">{row.k}</dt>
+									<dd class="meta mt-1" data-scramble>{row.v}</dd>
+								</div>
+							))}
+						</dl>
+					</div>
+				</div>
+
+				<div class="relative mt-10 flex items-end justify-between">
+					<span class="line-mask meta"><span>Scroll to read</span></span>
+					<span class="meta text-ash">↓</span>
+				</div>
+			</section>
+
+			<!-- 01 — PREFACE -->
+			<section
+				id="preface"
+				data-section="1"
+				class="border-t border-ink py-16 md:py-28"
+			>
+				<div class="grid gap-8 md:grid-cols-12">
+					<p class="line-mask meta md:col-span-3"><span>01 — Preface</span></p>
+					<p
+						data-split
+						class="md:col-span-9 md:col-start-4 text-2xl leading-[1.3] tracking-tight md:text-4xl md:leading-[1.25]"
+					>
+						{preface}
+					</p>
+				</div>
+			</section>
+
+			<!-- 02 — INDEX -->
+			<section id="index" data-section="2" class="border-t border-ink py-16 md:py-28">
+				<div class="mb-10 flex items-end justify-between md:mb-16">
+					<p class="line-mask meta"><span>02 — Index</span></p>
+					<p class="meta text-ash">Five Entries · Hover to preview</p>
+				</div>
+				<ul data-reveal-group>
+					{works.map((work, i) => (
+						<li
+							class="group border-t border-line last:border-b"
+							data-work={i}
+							data-cursor-label="View"
+						>
+							<a
+								href="#plates"
+								class="grid grid-cols-12 items-center gap-4 px-1 py-5 transition-colors duration-300 group-hover:bg-ink group-hover:text-paper md:py-7"
+								data-reveal
+							>
+								<span class="meta col-span-2 md:col-span-1" data-scramble>{work.n}</span>
+								<span class="col-span-10 text-xl font-medium tracking-tight md:col-span-5 md:text-3xl">
+									{work.title}
+								</span>
+								<span class="meta col-span-6 col-start-3 md:col-span-4 md:col-start-auto">
+									{work.discipline}
+								</span>
+								<span class="meta col-span-3 text-right md:col-span-2">{work.year}</span>
+							</a>
+						</li>
+					))}
+				</ul>
+			</section>
+
+			<!-- 03 — PLATES -->
+			<section id="plates" data-section="3" class="border-t border-ink">
+				<div class="flex items-end justify-between py-6">
+					<p class="line-mask meta"><span>03 — Plates</span></p>
+					<p class="meta text-ash">Selected Pieces · Scroll →</p>
+				</div>
+			</section>
+		</main>
+
+		<section
+			id="track-section"
+			class="overflow-x-auto border-t border-ink pt-16 md:overflow-x-clip md:pt-20"
+		>
+			<div id="track" class="flex w-max">
+				{works.map((work) => (
+					<article
+						class="flex h-[62svh] w-[85vw] shrink-0 flex-col justify-between border-r border-ink px-6 py-8 md:h-[68svh] md:w-[42vw] md:px-10"
+					>
+						<div class="flex items-start justify-between">
+							<span class="meta">Plate {work.n} / 05</span>
+							<span class="meta text-ash">{work.year}</span>
+						</div>
+						<div class="flex flex-1 items-center justify-center py-8">
+							<div class="poster aspect-[4/5] w-full max-w-[20rem] border border-ink">
+								<Motif type={work.motif} />
+							</div>
+						</div>
+						<div>
+							<h3 class="text-2xl font-medium tracking-tight md:text-3xl">{work.title}</h3>
+							<p class="meta mt-2 text-ash">{work.client} — {work.discipline}</p>
+							<p class="mt-4 max-w-sm text-sm leading-relaxed">{work.outcome}</p>
+						</div>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<main class="mx-auto max-w-[1600px] px-5 md:px-10">
+			<!-- 04 — COLOPHON -->
+			<section id="colophon" data-section="4" class="border-t border-ink py-16 md:py-28">
+				<div class="grid gap-8 md:grid-cols-12">
+					<p class="line-mask meta md:col-span-3"><span>04 — Colophon</span></p>
+					<div class="md:col-span-9 md:col-start-4">
+						<p data-split class="text-2xl leading-[1.3] tracking-tight md:text-4xl md:leading-[1.25]">
+							{about}
+						</p>
+
+						<dl class="mt-12 grid grid-cols-2 gap-x-10 gap-y-6 md:grid-cols-4" data-reveal-group>
+							{facts.map((fact) => (
+								<div data-reveal class="border-t border-line pt-4">
+									<dt class="meta text-ash">{fact.k}</dt>
+									<dd class="mt-3 text-sm font-medium">{fact.v}</dd>
+								</div>
+							))}
+						</dl>
+
+						<div class="mt-16 border-t border-ink pt-8">
+							<p class="text-3xl leading-tight tracking-tight md:text-5xl">
+								Have a project that deserves restraint?
+							</p>
+							<a
+								href="mailto:hello@jalusw.com"
+								class="magnetic group mt-8 inline-flex items-baseline gap-4"
+								data-cursor-label="Email"
+							>
+								<span
+									class="border-b-2 border-ink pb-1 text-xl font-medium tracking-tight transition-opacity duration-300 group-hover:opacity-40 md:text-3xl"
+								>
+									hello@jalusw.com
+								</span>
+								<span class="meta transition-transform duration-300 group-hover:translate-x-1">↗</span>
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<dl class="mt-20 grid grid-cols-2 gap-x-10 gap-y-8 md:grid-cols-4" data-reveal-group>
+					{colophon.map((row) => (
+						<div data-reveal class="border-t border-line pt-4">
+							<dt class="meta text-ash">{row.k}</dt>
+							<dd class="meta mt-2">{row.v}</dd>
+						</div>
+					))}
+				</dl>
+			</section>
+		</main>
+
+		<!-- MARQUEE -->
+		<section class="overflow-hidden border-y border-ink bg-ink py-6 text-paper select-none">
+			<div id="marquee" class="flex w-max whitespace-nowrap">
+				{Array.from({ length: 2 }).map(() => (
+					<span class="flex shrink-0 items-center">
+						{Array.from({ length: 4 }).map(() => (
+							<span class="mx-6 text-4xl font-bold tracking-tight md:text-6xl">
+								LESS, BUT BETTER&nbsp;&nbsp;·&nbsp;&nbsp;
+							</span>
+						))}
+					</span>
+				))}
+			</div>
+		</section>
+
+		<footer class="mx-auto flex max-w-[1600px] flex-col gap-3 px-5 py-6 md:flex-row md:justify-between md:px-10">
+			<span class="meta">© {edition.year} Jalu — All Rights Reserved</span>
+			<span class="meta text-ash">Set in Helvetica Neue · {edition.location}</span>
+		</footer>
+
+		<script>
+			import { gsap } from 'gsap';
+			import { ScrollTrigger } from 'gsap/ScrollTrigger';
+			import { SplitText } from 'gsap/SplitText';
+			import Lenis from 'lenis';
+
+			gsap.registerPlugin(ScrollTrigger, SplitText);
+
+			const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+			const hover = window.matchMedia('(hover: hover)').matches;
+			const q = gsap.utils.selector(document);
+
+			/* ---------- smooth scroll ---------- */
+			let lenis: Lenis | undefined;
+			if (!reduce) {
+				lenis = new Lenis({ duration: 1.1, smoothWheel: true });
+				lenis.on('scroll', ScrollTrigger.update);
+				gsap.ticker.add((time) => lenis!.raf(time * 1000));
+				gsap.ticker.lagSmoothing(0);
+			}
+
+			/* ---------- clock ---------- */
+			const clock = document.querySelector('#clock');
+			const tick = () => {
+				if (clock) clock.textContent = new Date().toLocaleTimeString('en-GB');
+			};
+			tick();
+			setInterval(tick, 1000);
+
+			/* ---------- anchors ---------- */
+			document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach((a) => {
+				a.addEventListener('click', (e) => {
+					const id = a.getAttribute('href');
+					if (!id || id === '#') return;
+					const target = document.querySelector(id);
+					if (!target) return;
+					e.preventDefault();
+					if (lenis) lenis.scrollTo(target as HTMLElement);
+					else (target as HTMLElement).scrollIntoView();
+				});
+			});
+
+			/* ---------- numeral scramble ---------- */
+			const digits = '0123456789';
+			const scramble = (el: HTMLElement, text: string, duration = 0.8) => {
+				const start = performance.now();
+				const step = (now: number) => {
+					const p = Math.min((now - start) / (duration * 1000), 1);
+					const revealed = Math.floor(p * text.length);
+					let out = '';
+					for (let i = 0; i < text.length; i++) {
+						const ch = text[i];
+						out +=
+							i < revealed || !/[0-9]/.test(ch)
+								? ch
+								: digits[Math.floor(Math.random() * digits.length)];
+					}
+					el.textContent = out;
+					if (p < 1) requestAnimationFrame(step);
+					else el.textContent = text;
+				};
+				requestAnimationFrame(step);
+			};
+
+			/* ---------- custom cursor ---------- */
+			if (!reduce && hover) {
+				const cursor = document.querySelector<HTMLElement>('#cursor')!;
+				const ring = cursor.querySelector<HTMLElement>('.cursor__ring')!;
+				const dot = cursor.querySelector<HTMLElement>('.cursor__dot')!;
+				const label = cursor.querySelector<HTMLElement>('.cursor__label')!;
+				const dx = gsap.quickTo(dot, 'x', { duration: 0.12, ease: 'power3' });
+				const dy = gsap.quickTo(dot, 'y', { duration: 0.12, ease: 'power3' });
+				const rx = gsap.quickTo(ring, 'x', { duration: 0.45, ease: 'power3' });
+				const ry = gsap.quickTo(ring, 'y', { duration: 0.45, ease: 'power3' });
+				const lx = gsap.quickTo(label, 'x', { duration: 0.45, ease: 'power3' });
+				const ly = gsap.quickTo(label, 'y', { duration: 0.45, ease: 'power3' });
+
+				window.addEventListener('mousemove', (e) => {
+					cursor.classList.remove('is-hidden');
+					[dx, rx, lx].forEach((f) => f(e.clientX));
+					[dy, ry, ly].forEach((f) => f(e.clientY));
+				});
+				document.addEventListener('mouseleave', () => cursor.classList.add('is-hidden'));
+
+				document.querySelectorAll<HTMLElement>('[data-cursor], [data-cursor-label]').forEach((el) => {
+					el.addEventListener('mouseenter', () => {
+						cursor.classList.add('is-hover');
+						const text = el.getAttribute('data-cursor-label');
+						if (text) label.textContent = text;
+					});
+					el.addEventListener('mouseleave', () => cursor.classList.remove('is-hover'));
+				});
+			}
+
+			/* ---------- magnetic ---------- */
+			if (!reduce && hover) {
+				q<HTMLElement>('.magnetic').forEach((el) => {
+					const xTo = gsap.quickTo(el, 'x', { duration: 0.5, ease: 'power3' });
+					const yTo = gsap.quickTo(el, 'y', { duration: 0.5, ease: 'power3' });
+					el.addEventListener('mousemove', (e) => {
+						const r = el.getBoundingClientRect();
+						xTo((e.clientX - (r.left + r.width / 2)) * 0.35);
+						yTo((e.clientY - (r.top + r.height / 2)) * 0.5);
+					});
+					el.addEventListener('mouseleave', () => {
+						xTo(0);
+						yTo(0);
+					});
+				});
+			}
+
+			/* ---------- index hover preview ---------- */
+			if (!reduce && hover) {
+				const preview = document.querySelector<HTMLElement>('#work-preview')!;
+				const panels = q<HTMLElement>('[data-preview]');
+				const rows = q<HTMLElement>('[data-work]');
+				gsap.set(panels, { opacity: 0, scale: 1.08 });
+				const px = gsap.quickTo(preview, 'x', { duration: 0.6, ease: 'power3' });
+				const py = gsap.quickTo(preview, 'y', { duration: 0.6, ease: 'power3' });
+
+				window.addEventListener('mousemove', (e) => {
+					px(e.clientX + 28);
+					py(e.clientY - 200);
+				});
+
+				rows.forEach((row, i) => {
+					row.addEventListener('mouseenter', () => {
+						gsap.to(preview, { opacity: 1, duration: 0.4 });
+						panels.forEach((p, j) =>
+							gsap.to(p, { opacity: j === i ? 1 : 0, scale: j === i ? 1 : 1.08, duration: 0.5, ease: 'expo.out' })
+						);
+					});
+					row.addEventListener('mouseleave', () => gsap.to(preview, { opacity: 0, duration: 0.3 }));
+				});
+			}
+
+			/* ---------- section indicator ---------- */
+			const dots = q<HTMLElement>('[data-dot]');
+			const setDot = (idx: number) =>
+				dots.forEach((d, j) => {
+					d.classList.toggle('text-ink', j === idx);
+					d.classList.toggle('text-ash', j !== idx);
+				});
+
+			q<HTMLElement>('[data-section]').forEach((section) => {
+				ScrollTrigger.create({
+					trigger: section,
+					start: 'top center',
+					end: 'bottom center',
+					onToggle: (self) => {
+						if (self.isActive) setDot(Number(section.dataset.section));
+					},
+				});
+			});
+
+			/* ---------- intro + reveal ---------- */
+			const playMasks = (root: ParentNode, delay = 0) =>
+				gsap.to(root.querySelectorAll('.line-mask > span'), {
+					y: 0,
+					duration: 1.1,
+					ease: 'expo.out',
+					stagger: 0.08,
+					delay,
+				});
+
+			const intro = () => {
+				playMasks(document.querySelector('#hero')!, 0.05);
+				if (reduce) return;
+
+				// section labels
+				q<HTMLElement>('.line-mask').forEach((line) => {
+					if (line.closest('#hero')) return;
+					const span = line.querySelector('span');
+					if (!span) return;
+					gsap.to(span, {
+						y: 0,
+						duration: 1,
+						ease: 'expo.out',
+						scrollTrigger: { trigger: line, start: 'top 88%' },
+					});
+				});
+
+				// split-text paragraphs
+				q<HTMLElement>('[data-split]').forEach((el) => {
+					const split = SplitText.create(el, { type: 'lines', mask: 'lines' });
+					gsap.from(split.lines, {
+						yPercent: 110,
+						duration: 1,
+						ease: 'expo.out',
+						stagger: 0.06,
+						scrollTrigger: { trigger: el, start: 'top 85%' },
+					});
+				});
+
+				// grouped reveals
+				q<HTMLElement>('[data-reveal-group]').forEach((group) => {
+					gsap.from(group.querySelectorAll('[data-reveal]'), {
+						y: 40,
+						opacity: 0,
+						duration: 0.8,
+						ease: 'power3.out',
+						stagger: 0.08,
+						scrollTrigger: { trigger: group, start: 'top 82%' },
+					});
+				});
+
+				// numeral scramble
+				q<HTMLElement>('[data-scramble]').forEach((el) => {
+					const text = el.textContent ?? '';
+					ScrollTrigger.create({
+						trigger: el,
+						start: 'top 92%',
+						once: true,
+						onEnter: () => scramble(el, text),
+					});
+				});
+
+				// progress bar
+				gsap.to('#progress', {
+					scaleX: 1,
+					ease: 'none',
+					scrollTrigger: {
+						trigger: document.documentElement,
+						start: 'top top',
+						end: 'bottom bottom',
+						scrub: 0.3,
+					},
+				});
+
+				// marquee
+				const marquee = document.querySelector('#marquee');
+				if (marquee) gsap.to(marquee, { xPercent: -50, duration: 26, ease: 'none', repeat: -1 });
+
+				// horizontal plates (desktop)
+				const mm = gsap.matchMedia();
+				mm.add('(min-width: 768px)', () => {
+					const track = document.querySelector<HTMLElement>('#track');
+					const section = document.querySelector<HTMLElement>('#track-section');
+					if (!track || !section) return;
+					const distance = () => track.scrollWidth - window.innerWidth;
+
+					const tween = gsap.to(track, {
+						x: () => -distance(),
+						ease: 'none',
+						scrollTrigger: {
+							trigger: section,
+							start: 'top top',
+							end: () => '+=' + distance(),
+							pin: true,
+							scrub: 1,
+							invalidateOnRefresh: true,
+							anticipatePin: 1,
+							onToggle: (self) => {
+								if (self.isActive) setDot(3);
+							},
+						},
+					});
+
+					// per-plate clip wipe driven by the horizontal scroll
+					q<HTMLElement>('.poster').forEach((poster) => {
+						gsap.from(poster, {
+							clipPath: 'inset(0% 0% 100% 0%)',
+							ease: 'power2.out',
+							scrollTrigger: {
+								trigger: poster,
+								containerAnimation: tween,
+								start: 'left 95%',
+								end: 'left 58%',
+								scrub: true,
+							},
+						});
+					});
+				});
+			};
+
+			/* ---------- preloader ---------- */
+			const preloader = document.querySelector<HTMLElement>('#preloader')!;
+			const counterEl = document.querySelector<HTMLElement>('#counter')!;
+
+			if (reduce) {
+				preloader.style.display = 'none';
+				intro();
+			} else {
+				document.body.style.overflow = 'hidden';
+				const details = { v: 0 };
+				const tl = gsap.timeline({
+					onComplete: () => {
+						document.body.style.overflow = '';
+						lenis?.start();
+					},
+				});
+				lenis?.stop();
+				tl.to(details, {
+					v: 100,
+					duration: 1.6,
+					ease: 'power2.inOut',
+					onUpdate: () => {
+						counterEl.textContent = String(Math.round(details.v)).padStart(3, '0');
+					},
+				})
+					.to('#preloader-name', { yPercent: -110, duration: 0.9, ease: 'expo.inOut' }, '+=0.1')
+					.to('#preloader', { yPercent: -100, duration: 0.9, ease: 'expo.inOut' }, '-=0.5')
+					.set('#preloader', { display: 'none' })
+					.add(() => intro(), '-=0.6');
+			}
+
+			window.addEventListener('beforeunload', () => ScrollTrigger.getAll().forEach((t) => t.kill()));
+		</script>
 	</body>
 </html>
